@@ -21,8 +21,7 @@ CREATE TABLE UserReactions(
     post_id INT,
     reaction_type ENUM('like','comment','share'),
     reaction_date DATETIME,
-    FOREIGN KEY (post_id) REFERENCES Posts(post_id)
-);
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id));
 
 -- Insert sample data into user_reaction table
 
@@ -40,3 +39,48 @@ VALUES
     (10,105,4,'share','2023-08-29 11:15:00'),
     (11,104,5,'like','2023-08-29 16:30:00'),
     (12,101,5,'comment','2023-08-30 09:45:00');
+    
+SELECT 
+	p.post_id,
+    p.post_content,
+    COUNT(CASE WHEN ur.reaction_type = 'like' THEN 1 END) AS num_likes,
+    COUNT(CASE WHEN ur.reaction_type = 'comment' THEN 1 END) AS num_comments,
+    COUNT(CASE WHEN ur.reaction_type = 'share' THEN 2 END) AS num_shares
+FROM
+	posts p
+LEFT JOIN
+	UserReactions ur ON p.post_id = ur.post_id
+WHERE
+	p.post_id = 3 -- Replace with the desired post_id
+GROUP BY
+	p.post_id, p.post_content;
+    
+SELECT
+	DATE(ur.reaction_date) AS reaction_day,
+    COUNT(DISTINCT ur.user_id) AS distinct_users,
+    COUNT(*) AS total_reactions,
+    AVG(COUNT(*)) OVER (PARTITION BY DATE(ur.reaction_date)) AS avg_reactions_per_user
+FROM
+	UserReactions ur
+WHERE
+	ur.reaction_date BETWEEN '2023-08-25' AND '2023-08-31'
+GROUP BY
+	reaction_day;
+    
+SELECT 
+	p.post_id,
+    p.post_content,
+    SUM(CASE WHEN ur.reaction_type = 'like' THEN 1 ELSE 0 END +
+		CASE WHEN ur.reaction_type = 'comment' THEN 1 ELSE 0 END +
+        CASE WHEN ur.reaction_type = 'share' THEN 1 ELSE 0 END) AS total_reactions
+FROM 
+	Posts p
+LEFT JOIN
+	UserReactions ur ON p.post_id = ur.post_id
+WHERE
+	ur.reaction_date BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) AND NOW()
+GROUP BY
+	p.post_id, p.post_content
+ORDER BY
+	total_reactions DESC
+LIMIT 3;
