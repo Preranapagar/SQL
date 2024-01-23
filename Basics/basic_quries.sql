@@ -65,18 +65,37 @@ values
 
 -- creating new table
 
-create table student (
-	id int primary key,
+show tables;
+
+create table emp_df(
+	empid int primary key,
+    fname varchar(50),
+    lname varchar(50),
+    dept varchar(10) default 'bench'
+);
+
+insert into emp_df values(101,'Mahesh','Pagar','IT');
+insert into emp_df (empid,fname,lname) values(102,'Nana','Dev');
+
+select * from emp_df;
+
+select fname from emp_df;
+
+-- create new table and perform aggregrate functions on columns
+
+create table car_data (
+	no int primary key,
     name varchar(50),
-    course varchar(50),
-    year int not null,
-    marks float default 00
-    );
-    
-insert into student
+    type varchar(50),
+    price int
+);
+
+insert into car_data
 values
-	(1,'Priyam','Mech',4,56),
-    (2,'Ramesh','Comp',3,67),
-    (3,'Keshav','Civil',1);
+	(1,'alto','hatchback',400000),
+    (2,'Scorpio','SUV',2100000),
+    (3,'Nexon','SUV',1500000),
+    (4,'City','sedan',1200000);
     
-select * from student;
+select max(price)from car_data;
+
