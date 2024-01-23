@@ -51,3 +51,32 @@ Rollno int primary key,
 Name varchar(50)
 );
 
+select * from students;
+
+insert into students (Rollno, Name)
+values
+(101,'Karan'),
+(102,'Arjun');
+
+insert into students
+values 
+(103,'Rita'),
+(104,'Geeta');
+
+-- creating new table
+
+create table student (
+	id int primary key,
+    name varchar(50),
+    course varchar(50),
+    year int not null,
+    marks float default 00
+    );
+    
+insert into student
+values
+	(1,'Priyam','Mech',4,56),
+    (2,'Ramesh','Comp',3,67),
+    (3,'Keshav','Civil',1);
+    
+select * from student;
