@@ -111,4 +111,13 @@ SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_
 FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 WHERE REFERENCED_TABLE_NAME IS NOT NULL;
 
--- 
+-- To add index
+alter table price_menu
+add index id (Item);
+
+select * from price_menu;
+desc price_menu;
+
+-- to remove index
+alter table price_menu
+drop index id;
