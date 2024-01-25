@@ -76,5 +76,39 @@ add xyz int;
 alter table house_expenses
 drop xyz;
 
-select * from house_expenses;
+-- to rename table name
+rename table house_expenses to house_exp;
 
+-- to drop primary key
+alter table house_exp drop primary key;
+
+-- to add primary key
+alter table house_exp add primary key (Sr,Name);
+
+select * from house_exp;
+
+-- to add foreign key
+
+create table price_menu(Item varchar(50) primary key, Value int default 0);
+insert into price_menu values
+	('Milk',28),
+    ('Cup', 150),
+    ('Electricity bill',1200);
+    
+insert into price_menu values
+	('Water Bottle',200),
+    ('Cup', 150),
+    ('Electricity bill',1200);
+    
+select * from price_menu;
+    
+alter table house_exp add constraint item_key foreign key(Name) references price_menu(Item);
+desc house_exp;
+desc price_menu;
+
+-- To check which column has a foreign key when you dont know the refrence table name
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE REFERENCED_TABLE_NAME IS NOT NULL;
+
+-- 
