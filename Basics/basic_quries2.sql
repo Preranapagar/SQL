@@ -115,9 +115,33 @@ WHERE REFERENCED_TABLE_NAME IS NOT NULL;
 alter table price_menu
 add index id (Item);
 
-select * from price_menu;
-desc price_menu;
-
 -- to remove index
 alter table price_menu
 drop index id;
+
+-- to add auto increment
+alter table house_exp auto_increment=10;
+
+-- to add table comment
+alter table house_exp
+comment = 'Household expenditure';
+
+-- to remove data from table
+truncate table car_data;
+
+-- to select all columns from table
+select * from car_data;
+
+-- select specific columns from table
+select Name from house_exp;
+
+-- to delete data from table
+set sql_safe_updates=0;
+delete from emp_df;
+select * from emp_df;
+
+-- to match the patterns
+select * from house_exp where Name like 'Cu%';
+
+-- to create index
+create index id on price_menu(Item);
